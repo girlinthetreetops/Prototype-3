@@ -8,22 +8,26 @@ public class SpawnManager : MonoBehaviour
     public float interval = 2.0f;
     public float startDelay = 1.0f;
 
+
+    [SerializeField] private Player player;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
         InvokeRepeating("InstantiateObstacle", startDelay, interval);
 
     }
 
+
+
     private void InstantiateObstacle()
     {
-        Instantiate(obstaclePf, transform.position, transform.rotation);
+        if (player.gameOver == false)
+        {
+            Instantiate(obstaclePf, transform.position, transform.rotation);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
         
-    }
 }
