@@ -17,7 +17,6 @@ public class SpawnManager : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         InvokeRepeating("InstantiateObstacle", startDelay, interval);
-
     }
 
 
