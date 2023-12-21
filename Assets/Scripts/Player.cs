@@ -8,11 +8,20 @@ public class Player : MonoBehaviour
     public bool isOnGround = true;
     public bool gameOver = false;
     public Animator playerAnim;
+    public ParticleSystem explosionParticle;
+    public ParticleSystem dirtParticle;
+
+    private AudioSource playerAudio;
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+
+
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -20,6 +29,8 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver)
         {
             Debug.Log("JUMP!");
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
+            dirtParticle.Stop();
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             playerAnim.SetTrigger("Jump_trig");
             isOnGround = false;
@@ -31,12 +42,15 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isOnGround = true;
+            dirtParticle.Play();
         }
 
         else if (collision.gameObject.tag == "Obstacle")
         {
             gameOver = true;
-            
+            playerAudio.PlayOneShot(crashSound, 1.0f);
+            explosionParticle.Play();
+            dirtParticle.Stop();
             Debug.Log("game over!!!");
             playerAnim.SetBool("Death_b", true);
             playerAnim.SetInteger("DeathType_int", 1);
