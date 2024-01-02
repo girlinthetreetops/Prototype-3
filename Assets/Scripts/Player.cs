@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip crashSound;
 
+    //Challenge
+    [SerializeField] private GameObject UpperBoundary;
 
 
     void Start()
@@ -22,6 +24,9 @@ public class Player : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+
+        //Challenge
+        UpperBoundary = GameObject.Find("Upper Boundary");
     }
 
     void Update()
